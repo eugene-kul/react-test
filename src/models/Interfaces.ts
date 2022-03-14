@@ -28,7 +28,6 @@ export interface IInputProps {
 	onChange?:any
 	mask?:string | (string | RegExp)[]
 	inputError?:string
-	readOnly?:boolean
 	required?:boolean
 	max?:number
 	autocomplete?:string
@@ -38,11 +37,17 @@ export interface IUser {
 	id?:number;
 	phone:string;
 	password:string;
-	first_name:string;
-	last_name:string;
+	first_name?:string;
+	last_name?:string;
 	token?:string;
 	message?:string;
 	success?:boolean
+}
+
+export interface IResponse {
+	token?:string;
+	message:string;
+	success:boolean
 }
 
 export interface IButtonsProps {
@@ -59,7 +64,9 @@ export interface IRoute {
 
 export interface IAuthState {
 	isAuth:boolean
+	token:string
 	user:IUser
+	response:IResponse
 	isLoading:boolean
 	error:string
 	errors:IErrors[]

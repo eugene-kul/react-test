@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from "react";
+import React, {FC, useState} from "react";
 import InputMask from "react-input-mask";
 import {useActions} from "../../hooks/useActions";
 import {IInputProps} from "../../models/Interfaces";
@@ -9,7 +9,7 @@ const Inputs:FC<IInputProps> = ({
 	value,
 	onChange,
 	mask,
-	inputError,
+	inputError= '',
 	id,
 	checked,
 	label,
@@ -17,19 +17,18 @@ const Inputs:FC<IInputProps> = ({
 	type,
 	max = 20,
 	required,
-	autocomplete = 'off',
-	readOnly
+	autocomplete = 'off'
 }) => {
 	const [isActive, setIsActive] = useState<boolean>(false)
 	const [showPassword, setShowPassword] = useState<boolean>(false)
-	const {clearErrors,setPhoneError,setPasswordError,setFirstNameError,setLastNameError,setCodeError} = useActions()
+	const {setPhoneError,setPasswordError,setFirstNameError,setLastNameError,setCodeError,setError} = useActions()
 	const {error} = useTypedSelector(state => state.authReducer)
 	
 	const onBlurHandler = (val:string):void => {
 		isActive&&val===''&&setIsActive(false)
 	}
 	
-	const onFocusHandler = (val:string):void => {
+	const onFocusHandler = ():void => {
 		!isActive&&setIsActive(true)
 	}
 	
@@ -42,7 +41,7 @@ const Inputs:FC<IInputProps> = ({
 			name==='code'&&setCodeError('')
 		}
 		
-		error && clearErrors()
+		error && setError('')
 		
 		!isActive && value && setIsActive(true)
 		onChange&&onChange(value)
@@ -68,7 +67,7 @@ const Inputs:FC<IInputProps> = ({
 						maskPlaceholder={null}
 						value={value}
 						name={name}
-						onFocus={e => onFocusHandler(e.target.value)}
+						onFocus={onFocusHandler}
 						onBlur={e => onBlurHandler(e.target.value)}
 						onChange={e => onChangeHandler(e.target.value)}
 						autoComplete={autocomplete}
@@ -90,7 +89,7 @@ const Inputs:FC<IInputProps> = ({
 							type={type==='password'?showPassword?'text':'password':type}
 							value={value}
 							name={name}
-							onFocus={e => onFocusHandler(e.target.value)}
+							onFocus={onFocusHandler}
 							onBlur={e => onBlurHandler(e.target.value)}
 							onChange={e => onChangeHandler(e.target.value)}
 							autoComplete={autocomplete}

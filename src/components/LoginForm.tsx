@@ -1,35 +1,12 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {useActions} from "../hooks/useActions";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {Form} from "./UI/Form";
 import Inputs from "./UI/Inputs";
 
 const LoginForm:FC = () => {
-	const {
-		error,
-		phone,
-		password,
-		phoneError,
-		passwordError,
-		isRemember,
-	} = useTypedSelector(state => state.authReducer)
-	
-	const {
-		login,
-		setRemember,
-		setForgotSuccess,
-		setPhone,
-		setPassword,
-		clearErrors,
-		clearData
-	} = useActions()
-	
-	useEffect(() => {
-		setForgotSuccess(false)
-		clearErrors()
-		clearData()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	},[])
+	const {error,phone,password,phoneError,passwordError,isRemember} = useTypedSelector(state => state.authReducer)
+	const {login,setRemember,setPhone,setPassword} = useActions()
 	
 	const onSubmit = ():void => {
 		login({

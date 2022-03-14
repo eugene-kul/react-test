@@ -2,7 +2,7 @@ import React, {FC} from "react";
 import {Link} from "react-router-dom";
 import {useActions} from "../../hooks/useActions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
-import Button from "./Button";
+import {Button} from "./Button";
 import {IFormProps} from "../../models/Interfaces";
 
 export const Form:FC<IFormProps> = ({
@@ -15,13 +15,24 @@ export const Form:FC<IFormProps> = ({
 	links,
 	success,
 }) => {
-	const {forgotSuccess} = useTypedSelector(state => state.authReducer)
-	const {setForgotSuccess,clearErrors} = useActions()
+	const {errors, error, phone, password, first_name, last_name, code, forgotSuccess} = useTypedSelector(state => state.authReducer)
+	const {setForgotSuccess,clearInputErrors,clearData,setForgotMsg} = useActions()
 	
 	const onSubmitHandler = ( e:React.FormEvent<HTMLFormElement> ) => {
 		e.preventDefault()
-		clearErrors()
+		if (errors.length || error) {clearInputErrors()}
 		onSubmit()
+	}
+	
+	const onClickHandler = () => {
+		forgotSuccess && setForgotSuccess(false)
+		if (phone || password || first_name || last_name || code) {clearData()}
+		if (errors.length || error) {clearInputErrors()}
+	}
+	
+	const returnHandler = () => {
+		setForgotSuccess(false)
+		setForgotMsg('')
 	}
 	
 	return (
@@ -38,16 +49,14 @@ export const Form:FC<IFormProps> = ({
 			
 			<div className="form__link">
 				{ text && <span>{text}</span> }
-				{
-					links && links.map((link,index) => {
-						return <Link to={link.slug} key={index}>{link.text}</Link>
-					})
-				}
+				{links && links.map((link,index) => {
+					return <Link to={link.slug} key={index} onClick={onClickHandler}>{link.text}</Link>
+				})}
 			</div>
 			
 			<div className="form__btn-body">
 				<Button text={btnText} className={"btn btn-primary"} type={"submit"}/>
-				{ forgotSuccess && <Button text={"Отмена"} className={"btn btn-default"} onClick={() => setForgotSuccess(false)}/> }
+				{ forgotSuccess && <Button text={"Отмена"} className={"btn btn-default"} onClick={returnHandler}/> }
 			</div>
 			
 			<div className="form__info"><i>•</i> - обязательные поля для заполнения</div>

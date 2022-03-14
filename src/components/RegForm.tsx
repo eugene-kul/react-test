@@ -1,39 +1,12 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {useActions} from "../hooks/useActions";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {Form} from "./UI/Form";
 import Inputs from "./UI/Inputs";
 
 const RegForm:FC = () => {
-	const {
-		phone,
-		password,
-		first_name,
-		last_name,
-		phoneError,
-		passwordError,
-		first_nameError,
-		last_nameError,
-		error,
-	} = useTypedSelector(state => state.authReducer)
-	
-	const {
-		reg,
-		setPhone,
-		setPassword,
-		setFirstName,
-		setLastName,
-		clearErrors,
-		clearData,
-		setForgotSuccess
-	} = useActions()
-	
-	useEffect(() => {
-		setForgotSuccess(false)
-		clearErrors()
-		clearData()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	},[])
+	const {phone,password,first_name,last_name,phoneError,passwordError,first_nameError,last_nameError,error} = useTypedSelector(state => state.authReducer)
+	const {reg,setPhone,setPassword,setFirstName,setLastName} = useActions()
 	
 	const onSubmit = ():void => {
 		reg({

@@ -1,37 +1,41 @@
 import {AuthAction, AuthActionEnum} from "./types";
-import {IAuthState, IErrors, IUser} from "../../../models/Interfaces";
+import {IAuthState, IErrors, IResponse, IUser} from "../../../models/Interfaces";
 
 const initialState: IAuthState = {
-	errors:          [] as IErrors[],
-	user:            {} as IUser,
-	isAuth:          false,
-	isLoading:       true,
-	isRemember:      true,
-	forgotSuccess:   false,
+	response: {} as IResponse,
+	errors: [] as IErrors[],
+	user: {} as IUser,
+	isAuth: false,
+	isLoading: false,
+	isRemember: true,
+	forgotSuccess: false,
 	first_nameError: '',
-	last_nameError:  '',
-	passwordError:   '',
-	first_name:      '',
-	phoneError:      '',
-	forgotMsg:       '',
-	last_name:       '',
-	codeError:       '',
-	password:        '',
-	error:           '',
-	phone:           '',
-	code:            '',
+	last_nameError: '',
+	passwordError: '',
+	first_name: '',
+	phoneError: '',
+	forgotMsg: '',
+	last_name: '',
+	codeError: '',
+	password: '',
+	token: '',
+	error: '',
+	phone: '',
+	code: '',
 }
 
 export default function authReducer(state = initialState, action: AuthAction): IAuthState {
 	switch(action.type) {
+		case AuthActionEnum.SET_TOKEN:
+			return {...state, token: action.payload}
 		case AuthActionEnum.SET_FORGOT_SUCCESS:
-			return {...state, forgotSuccess: action.payload, isLoading: false}
+			return {...state, forgotSuccess: action.payload}
 		case AuthActionEnum.SET_AUTH:
-			return {...state, isAuth: action.payload, isLoading: false}
+			return {...state, isAuth: action.payload}
 		case AuthActionEnum.SET_ERROR:
-			return {...state, error: action.payload, isLoading: false}
+			return {...state, error: action.payload}
 		case AuthActionEnum.SET_ERRORS:
-			return {...state, errors: action.payload, isLoading: false}
+			return {...state, errors: action.payload}
 		case AuthActionEnum.SET_USER:
 			return {...state, user: action.payload}
 		case AuthActionEnum.SET_LOADING:
@@ -60,6 +64,8 @@ export default function authReducer(state = initialState, action: AuthAction): I
 			return {...state, last_nameError: action.payload, error:''}
 		case AuthActionEnum.SET_CODE_ERROR:
 			return {...state, codeError: action.payload, error:''}
+		case AuthActionEnum.SET_RESPONSE:
+			return {...state, response: action.payload}
 		default:
 			return state
 	}

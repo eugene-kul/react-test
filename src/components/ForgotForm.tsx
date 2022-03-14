@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useActions} from "../hooks/useActions";
 import {Form} from "./UI/Form";
@@ -6,12 +6,7 @@ import Inputs from "./UI/Inputs";
 
 const ForgotForm:FC = () => {
 	const {phone, error,phoneError} = useTypedSelector(state => state.authReducer)
-	const {forgot,setPhone,clearErrors,clearData} = useActions()
-	
-	useEffect(() => {
-		clearErrors()
-		clearData()
-	},[])
+	const {forgot,setPhone} = useActions()
 	
 	const onSubmit = () => {
 		forgot({phone: phone.replace(/[^0-9,]/g, "")})
@@ -23,7 +18,6 @@ const ForgotForm:FC = () => {
 			subTitle={'Введите телефон, указанный при регистрации'}
 			onSubmit={onSubmit}
 			btnText={'Отправить'}
-			
 			links={[
 				{slug:'/login',text:'Вспомнил пароль!'},
 				{slug:'/reg',text:'Регистрация'}

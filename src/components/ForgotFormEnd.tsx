@@ -5,17 +5,7 @@ import {Form} from "./UI/Form";
 import Inputs from "./UI/Inputs";
 
 const ForgotFormEnd:FC = () => {
-	const {
-		error,
-		phone,
-		code,
-		password,
-		forgotSuccess,
-		forgotMsg,
-		passwordError,
-		codeError
-	} = useTypedSelector(state => state.authReducer)
-	
+	const {error,phone,code,password,forgotSuccess,forgotMsg,passwordError,codeError} = useTypedSelector(state => state.authReducer)
 	const {forgotEnd, setCode, setPassword} = useActions()
 	
 	const onSubmit = () => {
@@ -45,7 +35,6 @@ const ForgotFormEnd:FC = () => {
 				value={phone}
 				label={'Телефон'}
 				mask={'7 (999) 999-99-99'}
-				readOnly={true}
 				autocomplete={'username'}
 			/>
 			<Inputs

@@ -1,4 +1,3 @@
-import React from "react"
 import Login from "../Pages/Login";
 import Account from "../Pages/Account";
 import Reg from "../Pages/Reg";
