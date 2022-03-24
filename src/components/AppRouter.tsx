@@ -19,7 +19,7 @@ const AppRouter:FC = () => {
 					setLoading(false)
 				}, error => {
 					setLoading(false)
-               setIsAuth(false)
+               				setIsAuth(false)
 					error.response?.data.message
 						? setError(error.response?.data.message)
 						: setError(error.message)
